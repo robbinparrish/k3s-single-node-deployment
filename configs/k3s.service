@@ -1,0 +1,33 @@
+[Unit]
+Description=k3s.io - Lightweight Kubernetes
+Documentation=https://k3s.io
+Wants=network-online.target
+After=network-online.target
+
+[Install]
+WantedBy=multi-user.target
+
+[Service]
+Type=notify
+EnvironmentFile=-/etc/default/k3s
+KillMode=process
+Delegate=yes
+LimitNOFILE=1048576
+LimitNPROC=infinity
+LimitCORE=infinity
+TasksMax=infinity
+TimeoutStartSec=0
+Restart=on-failure
+RestartSec=30s
+ExecStartPre=-/sbin/modprobe br_netfilter
+ExecStartPre=-/sbin/modprobe overlay
+ExecStart=/usr/bin/k3s server \
+    --disable=traefik --disable=metrics-server \
+    --cluster-cidr="10.42.0.0/16" --service-cidr="10.43.0.0/16"	\
+    --service-node-port-range="30000-32767" \
+    --data-dir="/var/lib/rancher" \
+    --kubelet-arg "--container-log-max-files=2" \
+    --kubelet-arg "--container-log-max-size=10Mi" \
+    --kubelet-arg "--image-gc-high-threshold=60" \
+    --kubelet-arg "--image-gc-low-threshold=50"
+

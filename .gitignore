@@ -1,0 +1,19 @@
+#
+# .gitignore file - Ignore everything and recursive allow them.
+#
+
+#
+# Ignore everything.
+#
+*
+
+#
+# Recursive allow.
+#
+!.gitignore
+!README.md
+!configs/
+!configs/k3s.service
+!configs/k3s-systemd-service-configuration.md
+!configs/installing-helm.md
+!configs/interacting-with-k3s-cluster.md
